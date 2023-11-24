@@ -1,24 +1,25 @@
- algorithm_palindrome(word):
-    if len(word) <= 1:
-    return True
-  if word[0] == word[-1]:
-    return is_palindrome(word[1:-1])
-  return False
+FUNCTION IsPalindrome(word: STRING): BOOLEAN;
+VAR
+  i, j: INTEGER;
+BEGIN
+  // Convert the word to lowercase for case-insensitive comparison
+  word := LowerCase(word);
 
+  // Base case: an empty word or a word containing a single character is a palindrome
+  IF Length(word) <= 1 THEN
+    RETURN TRUE;
+  END_IF;
 
-# Breakdown of the processing: we compare the characters located at the ends of the word:
-  # if equality we test the rest of the word
-  # if difference we stop
-  # Stop condition: an empty word or a word containing a single character is a palindrome.
+  // Compare the characters located at the ends of the word
+  FOR i FROM 1 TO Length(word) DO
+    FOR j FROM Length(word) DOWNTO 1 DO
+      IF (i <> j AND word[i] = word[j]) THEN
+        // Recursively call IsPalindrome with the substring excluding the first and last characters
+        RETURN IsPalindrome(Copy(word, i + 1, j - i - 1));
+      END_IF;
+    END_FOR;
+  END_FOR;
 
-
-
-   """
-  Test if a word is a palindrome.
-  A word is a palindrome if only if it can be read from left to right or from right to left: gag; kayak; php; radar;....
-  Args:
-    word: The word to test.
-  Returns:
-    True if the word is a palindrome, False otherwise.
-  """
- 
+  // If the loop completes without returning, the word is a palindrome
+  RETURN TRUE;
+END;
